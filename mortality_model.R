@@ -16,7 +16,24 @@ mortality_model <- function(data) {
   ##############################################################################
   # User code starts here
   rtn <-
-    glm(mortality ~ age + female + gcs_use + icpyn1,
+    glm(mortality ~ injury_mech_abuse_flag + 
+          #gcseyeed + gcsverbaled + gcsmotored +  
+          gcs_use + 
+          ctce + ctcompress + ctsubhematoma + ctepihematoma + 
+          #puplrcticu + 
+          #gcseyeicu + gcsverbalicu + gcsmotoricu + 
+          #gcsicu + 
+          #gcsetticu + 
+          #gcssedicu + gcsparicu + 
+          #ventyn + 
+          cathtype1_cvc_flag + 
+          #newgastyn + 
+          epihemyn + 
+          rxhypsal + 
+          rxinotrvas + 
+          #entnutyn + 
+          #hosplos + 
+          cardiacarrestyn,
         data = data,
         family = binomial())
   
@@ -48,7 +65,7 @@ predict.hackathon_mortality_model <- function(object, newdata, ...) {
   # User Defined data preparation code starts here
 
   p <- stats::predict.glm(object, newdata, type = "response", ...)
-  ifelse(p > 0.25, "Mortality", "Alive")
+  ifelse(p > 0.5, "Mortality", "Alive")
 
 }
 

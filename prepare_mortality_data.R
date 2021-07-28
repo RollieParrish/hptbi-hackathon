@@ -63,7 +63,16 @@ prepare_mortality_data <- function(training = TRUE) {
 
   # User Defined Code ends here
   ##############################################################################
-
+  # add additional features
+  
+  hackathon_mortality_data <- 
+    hackathon_mortality_data %>%
+    mutate(
+      injury_mech_abuse_flag = if_else(injurymech == "Known or suspected abuse", 1, 0), 
+      cathtype1_cvc_flag = if_else(cathtype1 == "Central venous catheter", 1, 0)
+    ) %>%
+    mutate(across(ends_with("_flag"), factor))
+  
   hackathon_mortality_data
 }
 
