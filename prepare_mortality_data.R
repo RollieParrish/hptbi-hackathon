@@ -37,6 +37,8 @@ prepare_mortality_data <- function(training = TRUE) {
   ##############################################################################
   # User Defined Code starts here
 
+  stopifnot(require(tidyverse))
+
   hackathon_mortality_data$gcs_use <-
     ifelse(is.na(hackathon_mortality_data$gcsed),
            yes = hackathon_mortality_data$gcsicu,

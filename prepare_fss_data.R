@@ -37,6 +37,8 @@ prepare_fss_data <- function(training = TRUE) {
   ##############################################################################
   # User Defined data preperation code starts here
 
+  stopifnot(require(tidyverse))
+
   # deal with a possible missing value in icpyn1
   if (any(hackathon_fss_data$icpyn1)) {
 
