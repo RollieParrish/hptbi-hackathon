@@ -1,14 +1,11 @@
-title: "Your Hackathon Project Title"
+title: "HPTBI Hackathon"
 version: v0.1
 language: R
 author:
-- name: Peter E. DeWitt
-  email: peter.dewitt@cuanschutz.edu
-  github: dewittpe
-- name: Author Two
-  email: author.two@school.edu
-  github: author2
+- name: Rollie Parrish 
+  email: rollie.parrish@providence.org 
+  github: RollieParrish
 description: >
-  This is where you can write a few sentences about your submission.  Modeling
-  approach, author contributions, etc.
-url: https://github.com/dewittpe/hackathon
+  This is primarily a learning opportunity to develop models using R/Tidymodels ecosystem. 
+  Goal is to successfully converge a logistic regression model. 
+url: https://github.com/RollieParrish/hptbi-hackathon
