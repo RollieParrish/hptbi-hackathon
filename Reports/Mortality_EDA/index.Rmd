@@ -5,7 +5,83 @@ output: github_document
 
 ```{r setup, include=FALSE}
 
+library(tidyverse)
+library(compareGroups)
 
-knitr::opts_chunk$set(echo = TRUE)
+hackathon_mortality_data <- read.csv(file = here::here("csvs/training.csv"))
+  # Define the primary outcome -- do not edit this.  If you need the outcome in
+  # a different format, e.g., integer or logical, create an additional
+  # data.frame element in user defined code section below.
+hackathon_mortality_data$mortality <-
+  as.integer(hackathon_mortality_data$hospdisposition == "Mortality")
+
+  # Omit some elements - FSS is omitted from this data set.  FSS could not be
+  # assessed for patients who died.  To reduce confusion FSS related elements
+  # are omitted as missing values for FSS are be highly correlated with
+  # mortality.
+hackathon_mortality_data <-
+  hackathon_mortality_data[-grep("fss", names(hackathon_mortality_data))]
+  
+  
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r user_defined_code}
+  hackathon_mortality_data$gcs_use <-
+    ifelse(is.na(hackathon_mortality_data$gcsed),
+           yes = hackathon_mortality_data$gcsicu,
+           no  = hackathon_mortality_data$gcsed)
+
+
+  # deal with a possible missing value in icpyn1
+  if (any(hackathon_mortality_data$icpyn1)) {
+
+    # if all information about type of monitor is missing then mark icpyn1 as 0
+    flags <-
+      as.integer(
+                 !(
+                     (hackathon_mortality_data$icptype1 == "" | is.na(hackathon_mortality_data$icptype1)) &
+                     (hackathon_mortality_data$icptype2 == "" | is.na(hackathon_mortality_data$icptype2)) &
+                     (hackathon_mortality_data$icptype3 == "" | is.na(hackathon_mortality_data$icptype3)) 
+                  )
+      )
+
+    idx <- which(is.na(hackathon_mortality_data$icpyn1))
+    hackathon_mortality_data$icpyn1[idx] <- flags[idx]
+  }
+
+# add additional features
+
+hackathon_mortality_data <- 
+    hackathon_mortality_data %>%
+    mutate(
+        injury_mech_abuse_flag = if_else(injurymech == "Known or suspected abuse", 1, 0), 
+        cathtype1_cvc_flag = if_else(cathtype1 == "Central venous catheter", 1, 0)
+    ) %>%
+    mutate(across(ends_with("_flag"), factor))
+
+```
+
+
+```{r}
+skimr::skim(hackathon_mortality_data)
+
+```
+
+
+```{r}
+
+res_1<- 
+    hackathon_mortality_data %>%
+    compareGroups(mortality ~ ., 
+                  data = .)
+
+
+table_1 <- 
+    createTable(res_1, 
+                show.ratio = TRUE)
+
+
+table_1    
 ```
 
