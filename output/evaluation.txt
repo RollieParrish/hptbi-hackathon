@@ -1,5 +1,2 @@
 language | r
 Version | dev
-seconds elapsed to prepare mortality training data | 0.08283377 
-seconds elapsed to prepare fss training data | 0.08434582 
-seconds elapsed to train the fss model | 0.004338264 

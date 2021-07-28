@@ -32,43 +32,7 @@ Type 'q()' to quit R.
 > tic <- Sys.time()
 > 
 > training_data <- do.call(paste0("prepare_", response, "_data"), list(training = TRUE))
-> 
-> toc <- Sys.time()
-> 
-> cat("seconds elapsed to prepare",
-+     response,
-+     "training data |",
-+     as.numeric(difftime(toc, tic, units = "secs")),
-+     "\n",
-+     file = "./output/evaluation.txt",
-+     sep = " ",
-+     append = TRUE)
-> 
-> ################################################################################
-> # Train the model and record the time required to do so.
-> 
-> tic <- Sys.time()
-> 
-> trained_model <- do.call(paste0(response, "_model"), list(data = training_data))
-> 
-> toc <- Sys.time()
-> 
-> saveRDS(trained_model, file = paste0("./output/trained_", response, "_model.rds"))
-> 
-> cat("seconds elapsed to train the",
-+     response,
-+     "model |",
-+     as.numeric(difftime(toc, tic, units = "secs")),
-+     "\n",
-+     file = "./output/evaluation.txt",
-+     sep = " ",
-+     append = TRUE)
-> 
-> ################################################################################
-> #                                 End of File                                  #
-> ################################################################################
-> 
-> 
-> proc.time()
-   user  system elapsed 
-  0.288   0.090   0.352 
+Error in hackathon_fss_data %>% mutate(injury_mech_abuse_flag = if_else(injurymech ==  : 
+  could not find function "%>%"
+Calls: do.call -> prepare_fss_data
+Execution halted

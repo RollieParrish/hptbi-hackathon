@@ -15,7 +15,18 @@ fss_model <- function(data) {
 
   ##############################################################################
   # User code starts here
-  rtn <- lm(fss_total ~ age + female + icpyn1, data = data)
+  rtn <- lm(fss_total ~ 
+              injurymech +
+              #injury_mech_abuse_flag + 
+              #cathtype1_cvc_flag +
+              rxhypsal + rxmann + rxbarb + 
+              rxinotrvas + 
+              admittofss +
+              #gcsed + ctskullfrac + ctce + ctmidlineshift + ctcompress + 
+              #ctintraparhem + ctsubarchhem + ctsubhematoma + ctepihematoma + 
+              
+              icpyn1, 
+            data = data)
 
   # User code ends here
   ##############################################################################

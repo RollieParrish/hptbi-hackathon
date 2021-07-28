@@ -32,25 +32,7 @@ Type 'q()' to quit R.
 > tic <- Sys.time()
 > 
 > training_data <- do.call(paste0("prepare_", response, "_data"), list(training = TRUE))
-> 
-> toc <- Sys.time()
-> 
-> cat("seconds elapsed to prepare",
-+     response,
-+     "training data |",
-+     as.numeric(difftime(toc, tic, units = "secs")),
-+     "\n",
-+     file = "./output/evaluation.txt",
-+     sep = " ",
-+     append = TRUE)
-> 
-> ################################################################################
-> # Train the model and record the time required to do so.
-> 
-> tic <- Sys.time()
-> 
-> trained_model <- do.call(paste0(response, "_model"), list(data = training_data))
-Error in eval(predvars, data, env) : 
-  object 'injury_mech_abuse_flag' not found
-Calls: do.call ... eval -> <Anonymous> -> model.frame.default -> eval -> eval
+Error in hackathon_mortality_data %>% mutate(injury_mech_abuse_flag = if_else(injurymech ==  : 
+  could not find function "%>%"
+Calls: do.call -> prepare_mortality_data
 Execution halted

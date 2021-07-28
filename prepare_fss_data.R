@@ -55,7 +55,13 @@ prepare_fss_data <- function(training = TRUE) {
   # User Defined Code ends here
   ##############################################################################
 
-  hackathon_fss_data
+  hackathon_fss_data <- 
+    hackathon_fss_data %>%
+    mutate(
+      injury_mech_abuse_flag = if_else(injurymech == "Known or suspected abuse", 1, 0), 
+      cathtype1_cvc_flag = if_else(cathtype1 == "Central venous catheter", 1, 0)
+    ) %>%
+    mutate(across(ends_with("_flag"), factor))
 }
 
 ################################################################################

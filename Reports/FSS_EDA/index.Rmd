@@ -1,0 +1,76 @@
+---
+title: "FSS data EDA"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+
+library(tidyverse)
+library(GGally)
+
+   hackathon_fss_data <- read.csv(file = here::here("csvs/training.csv"))
+   
+  # Define the primary outcome -- do not edit this.  If you need the outcome in
+  # a different format, e.g., integer or logical, create an additional
+  # data.frame element in user defined code section below.
+  hackathon_fss_data$fss_total <-
+    Reduce(function(x, y) {x + y},
+           x = hackathon_fss_data[grep("^fss", names(hackathon_fss_data))])
+
+  # subset to known FSS values
+  hackathon_fss_data <-
+    subset(hackathon_fss_data, hospdisposition != "Mortality")
+  hackathon_fss_data <-
+    subset(hackathon_fss_data, !is.na(fss_total))
+  
+  
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r user_defined_code}
+  # User Defined data preperation code starts here
+
+  # deal with a possible missing value in icpyn1
+  if (any(hackathon_fss_data$icpyn1)) {
+
+    # if all information about type of monitor is missing then mark icpyn1 as 0
+    flags <-
+      as.integer(!(
+                     hackathon_fss_data$icptype1 == "" | is.na(hackathon_fss_data$icptype1) &
+                     hackathon_fss_data$icptype2 == "" | is.na(hackathon_fss_data$icptype2) &
+                     hackathon_fss_data$icptype3 == "" | is.na(hackathon_fss_data$icptype3) 
+                  ))
+
+    idx <- which(is.na(hackathon_fss_data$icpyn1))
+    hackathon_fss_data$icpyn1[idx] <- flags[idx]
+  }
+
+  # User Defined Code ends here
+  ##############################################################################
+
+  hackathon_fss_data
+
+```
+
+
+```{r}
+skimr::skim(hackathon_fss_data)
+
+```
+
+
+```{r}
+
+hackathon_fss_data %>%
+  select(fss_total, 
+         #age, female, icpyn1
+         #injurytoadmit:gcsed,
+         ctskullfrac:ctepihematoma,
+         hosplos
+         ) %>%
+  ggpairs() + 
+  theme_bw()
+
+
+```
+
