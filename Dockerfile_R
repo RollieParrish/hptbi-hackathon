@@ -16,6 +16,7 @@ RUN apt-get install -qy libcurl4-openssl-dev libssl-dev libxml2-dev
 ## R packages
 RUN R --vanilla --quiet -e "install.packages('glmnet', repo = 'https://cran.rstudio.com')"
 RUN R --vanilla --quiet -e "install.packages('tidyverse', repo = 'https://cran.rstudio.com')"
+RUN R --vanilla --quiet -e "install.packages('mice', repo = 'https://cran.rstudio.com')"
 
 ################################################################################
 ##                HACKATHON USERS --- DO NOT EDIT THIS SECTION                ##

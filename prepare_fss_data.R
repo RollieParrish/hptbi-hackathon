@@ -38,7 +38,8 @@ prepare_fss_data <- function(training = TRUE) {
   # User Defined data preperation code starts here
 
   stopifnot(require(tidyverse))
-
+  stopifnot(require(mice))
+  
   # deal with a possible missing value in icpyn1
   if (any(hackathon_fss_data$icpyn1)) {
 
@@ -54,9 +55,6 @@ prepare_fss_data <- function(training = TRUE) {
     hackathon_fss_data$icpyn1[idx] <- flags[idx]
   }
 
-  # User Defined Code ends here
-  ##############################################################################
-
   hackathon_fss_data <- 
     hackathon_fss_data %>%
     mutate(
@@ -64,8 +62,21 @@ prepare_fss_data <- function(training = TRUE) {
       cathtype1_cvc_flag = if_else(cathtype1 == "Central venous catheter", 1, 0)
     ) %>%
     mutate(across(ends_with("_flag"), factor))
-}
+  
+  # Cleanup/impute additional missing values
+  imputed_fss_data <- mice(hackathon_fss_data, m = 5)
+  
+  hackathon_fss_data <- complete(imputed_fss_data)
+  
+  
+  # User Defined Code ends here
+  ##############################################################################
+ 
 
+  hackathon_fss_data
+
+  }
+  
 ################################################################################
 #                                 End of File
 ################################################################################

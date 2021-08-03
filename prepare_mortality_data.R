@@ -38,6 +38,7 @@ prepare_mortality_data <- function(training = TRUE) {
   # User Defined Code starts here
 
   stopifnot(require(tidyverse))
+  stopifnot(require(mice))
 
   hackathon_mortality_data$gcs_use <-
     ifelse(is.na(hackathon_mortality_data$gcsed),
@@ -62,11 +63,7 @@ prepare_mortality_data <- function(training = TRUE) {
     hackathon_mortality_data$icpyn1[idx] <- flags[idx]
   }
   
-
-  # User Defined Code ends here
-  ##############################################################################
   # add additional features
-  
   hackathon_mortality_data <- 
     hackathon_mortality_data %>%
     mutate(
@@ -74,7 +71,15 @@ prepare_mortality_data <- function(training = TRUE) {
       cathtype1_cvc_flag = if_else(cathtype1 == "Central venous catheter", 1, 0)
     ) %>%
     mutate(across(ends_with("_flag"), factor))
+ 
+  # Cleanup/impute additional missing values
+  imputed_mortality_data <- mice(hackathon_mortality_data, m = 5)
   
+  hackathon_mortality_data <- complete(imputed_mortality_data)
+  
+  # User Defined Code ends here
+  ##############################################################################
+ 
   hackathon_mortality_data
 }
 

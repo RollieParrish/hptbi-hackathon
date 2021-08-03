@@ -1,11 +1,15 @@
 title: "HPTBI Hackathon"
-version: v0.1.5
+version: v0.2.0
 language: R
 author:
 - name: Rollie Parrish 
   email: rollie.parrish@providence.org 
   github: RollieParrish
 description: >
+  v0.2.0 - addresses missing values
+  v0.1.5 - various fixes from HPTBI admin team
+  v0.1 - Initial submission
+  ---  
   This is primarily a learning opportunity to develop models using R/Tidymodels ecosystem. 
   Goal is to successfully converge a logistic regression model. 
 url: https://github.com/RollieParrish/hptbi-hackathon
